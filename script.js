@@ -1,5 +1,12 @@
-let display = document.getElementById("display");
-console.log(display);
+let display = document.querySelector(".display");
+let numbers = document.querySelectorAll(".number");
+let displayValue;
+
+for (const number of numbers) {
+    number.addEventListener('click', function handleClick(e) {
+      fillDisplay(e.srcElement.innerText);
+    });
+  }
 
 function add(x,y) {
     return x + y;
