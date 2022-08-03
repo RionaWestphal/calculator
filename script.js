@@ -1,3 +1,6 @@
+let display = document.getElementById("display");
+console.log(display);
+
 function add(x,y) {
     return x + y;
 }
@@ -21,4 +24,13 @@ function operate(operator, num1, num2) {
         case("*"): return num1 * num2; break;
         case("/"): return num1 / num2; break;
     }
+}
+
+function fillDisplay(text) {
+    let content = document.createTextNode(text);
+    display.appendChild(content);
+}
+
+function clearDisplay() {
+    display.innerHTML = "";
 }
