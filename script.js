@@ -3,10 +3,12 @@ let numbers = document.querySelectorAll(".number");
 let operators = document.querySelectorAll(".operator");
 let equals = document.querySelector('.equals');
 let clear = document.querySelector('.clear');
+let decimal = document.querySelector('.decimal');
 let shouldClearDisplay = false;
 let displayValue = "";
 let mostRecentOperator = undefined;
 let num1 = 0;
+let hasDecimal = false;
 
 for (const number of numbers) {
     number.addEventListener('click', function handleClick(e) {
@@ -19,12 +21,25 @@ for (const number of numbers) {
     });
 }
 
+decimal.addEventListener('click', function handleClick(e) {
+    if(hasDecimal === true) return;
+    if(displayValue === "") {
+        displayValue = "0.";
+    }
+    else {
+        displayValue += ".";
+    }
+    fillDisplay(displayValue);
+    hasDecimal = true;
+});
+
 for (const operator of operators) {
     operator.addEventListener('click', function handleClick(e) {
         if (num1 === 0) {
             mostRecentOperator = e.srcElement.innerText;
             num1 = displayValue;
             displayValue = "";
+            hasDecimal = false;
         }
         else {
             if(displayValue === "") {
@@ -41,6 +56,7 @@ for (const operator of operators) {
             displayValue = "";
             num1 = answer;
             mostRecentOperator = e.srcElement.innerText;
+            hasDecimal = false;
             //shouldClearDisplay = true;
         }
     });
@@ -57,7 +73,7 @@ equals.addEventListener('click', function handleClick(e) {
     }
     displayValue = answer;
     num1 = 0;
-    shouldClearDisplay = true;
+    //shouldClearDisplay = true;
     mostRecentOperator = undefined;
 });
 
