@@ -1,15 +1,43 @@
 let display = document.querySelector(".display");
 let numbers = document.querySelectorAll(".number");
-let displayValue;
+let operators = document.querySelectorAll(".operator");
+let equals = document.querySelector('.equals');
+let clear = document.querySelector('.clear');
+let displayValue = "";
+let mostRecentOperator = undefined;
+let num1;
 
 for (const number of numbers) {
     number.addEventListener('click', function handleClick(e) {
-      fillDisplay(e.srcElement.innerText);
+      displayValue += e.srcElement.innerText;
+      fillDisplay(displayValue);
     });
   }
 
+for(const operator of operators) {
+    operator.addEventListener('click', function handleClick(e) {
+        mostRecentOperator = e.srcElement.innerText;
+        num1 = displayValue;
+        displayValue = "";
+    });
+}
+
+equals.addEventListener('click', function handleClick(e) {
+    if(mostRecentOperator === undefined || displayValue === "") return; 
+    let answer = operate(mostRecentOperator, num1, displayValue);
+    fillDisplay(answer); 
+    displayValue = answer;
+    num1 = 0;
+});
+
+clear.addEventListener('click', function handleClick(e) {
+    clearDisplay();
+    num1 = 0;
+    displayValue = "";
+});
+
 function add(x,y) {
-    return x + y;
+    return parseInt(x) + parseInt(y);
 }
 
 function subtract(x,y) {
@@ -26,18 +54,17 @@ function divide(x,y) {
 
 function operate(operator, num1, num2) {
     switch(operator) {
-        case("+"): return num1 + num2; break;
-        case("-"): return num1 - num2; break;
-        case("*"): return num1 * num2; break;
-        case("/"): return num1 / num2; break;
+        case("+"): return add(num1, num2); break;
+        case("-"): return subtract(num1, num2); break;
+        case("*"): return multiply(num1, num2); break;
+        case("/"): return divide(num1, num2); break;
     }
 }
 
 function fillDisplay(text) {
-    let content = document.createTextNode(text);
-    display.appendChild(content);
+    display.textContent = text;
 }
 
 function clearDisplay() {
-    display.innerHTML = "";
+    display.textContent = "";
 }
